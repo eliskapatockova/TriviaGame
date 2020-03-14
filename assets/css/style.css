@@ -12,6 +12,21 @@ body {
     padding-top: 3%;
     padding-bottom: 6%;
     border-radius: 10px;
+    font-size: 25px;
+    font: Georgia;
+}
+#heading{
+    font-weight: bold;
+    font-size: 50px;
+}
+#innerWrapper{
+    color: rgb(179, 212, 255);
+}
+#question{
+    color: rgb(97, 157, 248);
+}
+.exclamation{
+    color:rgb(97, 157, 248);
 }
 #start{
     margin-top: 5%;
@@ -33,6 +48,8 @@ body {
     background-color: rgb(97, 157, 248);
     font-size: 25px;
     border-radius: 10px;
+    width: 80%;
+ 
 }
 .answer-button:hover{
     background-color: rgb(57, 135, 252);
@@ -46,6 +63,10 @@ body {
     background-color: rgb(97, 157, 248);
     font-size: 25px;
     border-radius: 10px; 
+}
+.results{
+    text-decoration: italic;
+    color: rgb(97, 157, 248);
 }
 #start-over:hover{
     background-color: rgb(57, 135, 252);

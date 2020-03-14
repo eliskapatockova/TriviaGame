@@ -74,7 +74,7 @@ var quiz = {
         //start timer
         timer = setInterval(quiz.quizCounter, 1000);
         //write the question
-        quizArea.html("<h2>" + questionsAndAnswers[this.currentQuestion].question + "</h2>");
+        quizArea.html("<h2 id='question'>" + questionsAndAnswers[this.currentQuestion].question + "</h2>");
         //write the options 
         for (var i = 0; i < questionsAndAnswers[this.currentQuestion].answers.length; i++) {
             quizArea.append("<button class='answer-button' id='button' data-name='" + questionsAndAnswers[this.currentQuestion].answers[i]
@@ -95,7 +95,7 @@ var quiz = {
 
         clearInterval(timer);
 
-        quizArea.html("<h2>Correct!</h2>");
+        quizArea.html("<h2 class='exclamation'>Correct!</h2>");
         quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
 
         if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
@@ -110,8 +110,8 @@ var quiz = {
           quiz.wrongScore++;
           clearInterval(timer);
 
-            quizArea.html("<h2>Wrong!</h2>");
-            quizArea.append ("<h3> The right answer was " +  questionsAndAnswers[quiz.currentQuestion].correctAnswer + "</h3>")
+            quizArea.html("<h2 class='exclamation'>Wrong!</h2>");
+            quizArea.append ("<h3 class='exclamation'> The right answer was " +  questionsAndAnswers[quiz.currentQuestion].correctAnswer + "</h3>")
             quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
 
             if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
@@ -133,11 +133,11 @@ var quiz = {
       getResults: function(){
         clearInterval(timer);
 
-        quizArea.html("<h2>Here are your results! Let's see if you're a real Angeleno...");
+        quizArea.html("<h2 class='results'>Here are your results! Let's see if you're a real Angeleno...");
         $("#counter-number").text(quiz.counter);
-        quizArea.append("<h3>You answered "+ quiz.correctScore + " questions correctly</h3>");
-        quizArea.append("<h3>You answered "+ quiz.wrongScore + " questions incorrectly</h3>");
-        quizArea.append("<h3>You failed to answer "+ (5 - quiz.correctScore - quiz.wrongScore) + " questions</h3>");
+        quizArea.append("<h3 class='results'>You answered "+ quiz.correctScore + " questions correctly</h3>");
+        quizArea.append("<h3 class='results'>You answered "+ quiz.wrongScore + " questions incorrectly</h3>");
+        quizArea.append("<h3 class='results'>You failed to answer "+ (5 - quiz.correctScore - quiz.wrongScore) + " questions</h3>");
         quizArea.append("<br><button id='start-over'>Start Over!</button>");
       },
       clicked: function(e) {
