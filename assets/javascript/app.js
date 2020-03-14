@@ -20,7 +20,7 @@ var questionsAndAnswers = [{
   
   {question: "What's the most iconic LA coffee shop?",
   answers: ["Coffee Bean & Tea Leaf", "Starbucks", "Coffee Comissary", "Alfred Coffee"],
-  correctAnswer: "Paul Smith",
+  correctAnswer: "Alfred Coffee",
   image: "assets/images/alfred.jpg"
   },
   {question: "What's the deeply overpriced shopping street in the heart of West Holywood?",
@@ -49,21 +49,20 @@ var quiz = {
 
         if (quiz.counter === 0) {
             clearInterval(timer);
-            this.wrongScore++;
 
             counter = 10;
             $("#counter-number").html(quiz.counter);
 
             quizArea.html("<h2>You're All Out of Time!</h2>");
-            quizArea.append("<h3>The Correct Answer was: " + questionsAndAnswers[this.currentQuestion].correctAnswer);
-            quizArea.append("<img src='" + questionsAndAnswers[this.currentQuestion].image + "' />");
+            quizArea.append("<h3>The Correct Answer was: " + questionsAndAnswers[quiz.currentQuestion].correctAnswer + "</h3>");
+            quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
         
             //if it's the last question...
-            if (game.currentQuestion === questionsAndAnswers.length - 1) {
+            if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
                 setTimeout(quiz.getResults, 3 * 1000);
               }
             else {
-                setTimeout(quiz.nextQuestion, 3 * 1000);
+                setTimeout(quiz.moveToNextQuestion, 3 * 1000);
               }
         
         }
@@ -100,7 +99,7 @@ var quiz = {
         quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
 
         if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
-            setTimeout(quiz.results, 3 * 1000);
+            setTimeout(quiz.getResults, 3 * 1000);
           }
           else {
             setTimeout(quiz.moveToNextQuestion, 3 * 1000);
@@ -116,7 +115,7 @@ var quiz = {
             quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
 
             if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
-                setTimeout(quiz.results, 3 * 1000);
+                setTimeout(quiz.getResults, 3 * 1000);
               }
               else {
                 setTimeout(quiz.moveToNextQuestion, 3 * 1000);
@@ -136,9 +135,9 @@ var quiz = {
 
         quizArea.html("<h2>Here are your results! Let's see if you're a real Angeleno...");
         $("#counter-number").text(quiz.counter);
-        quizArea.append("<h3>You answered"+ quiz.correctScore + "questions correctly</h3>");
-        quizArea.append("<h3>You answered"+ quiz.wrongScore + "questions incorrectly</h3>");
-        quizArea.append("<h3>You didn't answer"+ (5 - quiz.correctScore - quiz.wrongScore) + "questions</h3>");
+        quizArea.append("<h3>You answered "+ quiz.correctScore + " questions correctly</h3>");
+        quizArea.append("<h3>You answered "+ quiz.wrongScore + " questions incorrectly</h3>");
+        quizArea.append("<h3>You failed to answer "+ (5 - quiz.correctScore - quiz.wrongScore) + " questions</h3>");
         quizArea.append("<br><button id='start-over'>Start Over!</button>");
       },
       clicked: function(e) {
