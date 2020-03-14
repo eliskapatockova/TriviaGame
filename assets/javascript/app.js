@@ -10,7 +10,7 @@ var questionsAndAnswers = [{
 
     {question: "What is the coolest college in LA? ;)",
   answers: ["UCLA", "USC", "Santa Monica College", "Loyola Marymount"],
-  correctAnswer: "Paul Smith",
+  correctAnswer: "UCLA",
   image: "assets/images/ucla.jpg"},
 
   {question: "What designer's pink wall does every tourist take pictures at?",
@@ -31,18 +31,7 @@ var questionsAndAnswers = [{
 ];
 
 var timer;
-//on-click functions:
-    $(document).on("click", "#start", function() {
-        $("#innerWrapper").prepend("<h2>Time Remaining: <span </span> Seconds</h2>");
-        quiz.loadQuestion();
-      }),
-
-      $(document).on("click", ".answer-button", function() {
-
-      })
-      $(document).on("click", "#start-over", function() {
-          quiz.reset();
-      })
+   
 
 
 // the object that will hold the bulk of my code
@@ -88,7 +77,10 @@ var quiz = {
         //write the question
         quizArea.html("<h2>" + questionsAndAnswers[this.currentQuestion].question + "</h2>");
         //write the options 
-
+        for (var i = 0; i < questionsAndAnswers[this.currentQuestion].answers.length; i++) {
+            quizArea.append("<button class='answer-button' id='button' data-name='" + questionsAndAnswers[this.currentQuestion].answers[i]
+            + "'>" + questionsAndAnswers[this.currentQuestion].answers[i] + "</button>");
+          }
       },
 
       moveToNextQuestion: function(){
@@ -105,15 +97,30 @@ var quiz = {
         clearInterval(timer);
 
         quizArea.html("<h2>Correct!</h2>");
-        quizArea.append("<img src='" + questions[quiz.currentQuestion].image + "' />");
+        quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
+
+        if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
+            setTimeout(quiz.results, 3 * 1000);
+          }
+          else {
+            setTimeout(quiz.moveToNextQuestion, 3 * 1000);
+          }
       },
 
       incorrectAnswer: function(){
           quiz.wrongScore++;
+          clearInterval(timer);
 
-          quizArea.html("<h2>Wrong!</h2>");
-        quizArea.append ("<h3> The right answer was" +  questions[quiz.currentQuestion].correctAnswer + "</h3>")
-        quizArea.append("<img src='" + questions[quiz.currentQuestion].image + "' />");
+            quizArea.html("<h2>Wrong!</h2>");
+            quizArea.append ("<h3> The right answer was " +  questionsAndAnswers[quiz.currentQuestion].correctAnswer + "</h3>")
+            quizArea.append("<img src='" + questionsAndAnswers[quiz.currentQuestion].image + "' />");
+
+            if (quiz.currentQuestion === questionsAndAnswers.length - 1) {
+                setTimeout(quiz.results, 3 * 1000);
+              }
+              else {
+                setTimeout(quiz.moveToNextQuestion, 3 * 1000);
+              }
       },
 
       reset: function() {
@@ -133,7 +140,28 @@ var quiz = {
         quizArea.append("<h3>You answered"+ quiz.wrongScore + "questions incorrectly</h3>");
         quizArea.append("<h3>You didn't answer"+ (5 - quiz.correctScore - quiz.wrongScore) + "questions</h3>");
         quizArea.append("<br><button id='start-over'>Start Over!</button>");
+      },
+      clicked: function(e) {
+        clearInterval(timer);
+        if ($(e.target).attr("data-name") === questionsAndAnswers[this.currentQuestion].correctAnswer) {
+          this.correctAnswer();
+        }
+        else {
+          this.incorrectAnswer();
+        }
       }
 
-
 }
+
+//on-click functions:
+$(document).on("click", "#start", function() {
+    $("#innerWrapper").prepend("<h2>Time Remaining: <span id='counter-number'>10</span> Seconds</h2>");
+    quiz.loadQuestion();
+  }),
+
+  $(document).on("click", ".answer-button", function(e) {
+    quiz.clicked(e);
+  })
+  $(document).on("click", "#start-over", function() {
+      quiz.reset();
+  })
